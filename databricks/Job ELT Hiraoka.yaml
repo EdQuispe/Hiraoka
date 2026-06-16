@@ -1,0 +1,38 @@
+resources:
+  jobs:
+    ELT_Hiraoka:
+      name: ELT Hiraoka
+      tasks:
+        - task_key: Bronze_Layer
+          notebook_task:
+            notebook_path: databricks/Bronze_Layer
+            source: GIT
+          environment_key: Default
+        - task_key: Silver_Layer
+          depends_on:
+            - task_key: Bronze_Layer
+          notebook_task:
+            notebook_path: databricks/Silver_Layer
+            source: GIT
+        - task_key: Gold_Layer
+          depends_on:
+            - task_key: Silver_Layer
+          notebook_task:
+            notebook_path: databricks/Gold_Layer
+            source: GIT
+      git_source:
+        git_url: https://github.com/EdQuispe/Hiraoka.git
+        git_provider: gitHub
+        git_branch: main
+      queue:
+        enabled: true
+      parameters:
+        - name: schema
+          default: hiraoka
+        - name: type_of_load
+          default: Incremental
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "5"
+      performance_target: PERFORMANCE_OPTIMIZED
