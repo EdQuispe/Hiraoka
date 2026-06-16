@@ -27,6 +27,8 @@ resources:
       queue:
         enabled: true
       parameters:
+        - name: workspace
+          default: workspace
         - name: schema
           default: hiraoka
         - name: type_of_load
