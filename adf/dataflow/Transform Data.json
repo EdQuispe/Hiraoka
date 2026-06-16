@@ -27,6 +27,9 @@
 				},
 				{
 					"name": "AsignarTipodeDatos"
+				},
+				{
+					"name": "ValidarActualizacion"
 				}
 			],
 			"scriptLines": [
@@ -51,7 +54,8 @@
 				"          PrecioOnline as float '##0.00'",
 				"     ),",
 				"     errors: true) ~> AsignarTipodeDatos",
-				"AsignarTipodeDatos sink(allowSchemaDrift: true,",
+				"AsignarTipodeDatos alterRow(upsertIf(true())) ~> ValidarActualizacion",
+				"ValidarActualizacion sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          Url as string,",
@@ -63,10 +67,10 @@
 				"          fecha_actualizacion as timestamp",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
-				"     upsertable:false,",
-				"     truncate:true,",
+				"     upsertable:true,",
+				"     keys:['Codigo'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
