@@ -1,0 +1,44 @@
+{
+	"name": "ds_celulares_adls",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "cnx_adls_hiraoka",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "Celulares.json",
+				"folderPath": "landing",
+				"fileSystem": "hiraoka"
+			},
+			"encodingName": "UTF-8"
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Url": {
+					"type": "string"
+				},
+				"Codigo": {
+					"type": "string"
+				},
+				"Marca": {
+					"type": "string"
+				},
+				"Descripcion": {
+					"type": "string"
+				},
+				"PrecioRegular": {
+					"type": "string"
+				},
+				"PrecioOnline": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

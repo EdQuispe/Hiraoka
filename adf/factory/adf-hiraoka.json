@@ -1,0 +1,15 @@
+{
+	"name": "adf-hiraoka",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "760be5af-3453-4372-ba5e-35e0bd57a5df",
+		"tenantId": "7a3c84d9-ed69-46b3-aa1c-52528c88df37"
+	}
+}

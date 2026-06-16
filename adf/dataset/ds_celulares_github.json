@@ -1,0 +1,44 @@
+{
+	"name": "ds_celulares_github",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "cnx_github_hiraoka",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"branch": "main"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "dataset/Celulares.json"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"Url": {
+					"type": "string"
+				},
+				"Codigo": {
+					"type": "string"
+				},
+				"Marca": {
+					"type": "string"
+				},
+				"Descripcion": {
+					"type": "string"
+				},
+				"PrecioRegular": {
+					"type": "string"
+				},
+				"PrecioOnline": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

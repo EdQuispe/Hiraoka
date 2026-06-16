@@ -1,0 +1,86 @@
+{
+	"name": "Transform Data",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_celulares_adls",
+						"type": "DatasetReference"
+					},
+					"name": "CelularesJSON"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_azsql_tables",
+						"type": "DatasetReference"
+					},
+					"name": "LoadToDatabase"
+				}
+			],
+			"transformations": [
+				{
+					"name": "TransformarColumnas"
+				},
+				{
+					"name": "AsignarTipodeDatos"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Url as string,",
+				"          Codigo as string,",
+				"          Marca as string,",
+				"          Descripcion as string,",
+				"          PrecioRegular as string,",
+				"          PrecioOnline as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> CelularesJSON",
+				"CelularesJSON derive(Marca = trim(replace(Marca, \"\\n\", \"\")),",
+				"          PrecioRegular = trim( replace(replace(PrecioRegular, \"S/  \", \"\"), \",\", \"\") ),",
+				"          PrecioOnline = trim( replace(replace(PrecioOnline, \"S/  \", \"\"), \",\", \"\") ),",
+				"          fecha_actualizacion = currentUTC('PE') - hours(5)) ~> TransformarColumnas",
+				"TransformarColumnas cast(output(",
+				"          PrecioRegular as float '##0.00',",
+				"          PrecioOnline as float '##0.00'",
+				"     ),",
+				"     errors: true) ~> AsignarTipodeDatos",
+				"AsignarTipodeDatos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Url as string,",
+				"          Codigo as string,",
+				"          Marca as string,",
+				"          Descripcion as string,",
+				"          PrecioRegular as decimal(10,2),",
+				"          PrecioOnline as decimal(10,2),",
+				"          fecha_actualizacion as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     truncate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Url,",
+				"          Codigo,",
+				"          Marca,",
+				"          Descripcion,",
+				"          PrecioRegular,",
+				"          PrecioOnline,",
+				"          fecha_actualizacion",
+				"     )) ~> LoadToDatabase"
+			]
+		}
+	}
+}

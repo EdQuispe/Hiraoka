@@ -1,0 +1,52 @@
+{
+	"name": "ds_azsql_tables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "cnx_azsql_hiraoka",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Url",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Codigo",
+				"type": "varchar"
+			},
+			{
+				"name": "Marca",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Descripcion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrecioRegular",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "PrecioOnline",
+				"type": "decimal",
+				"precision": 10,
+				"scale": 2
+			},
+			{
+				"name": "fecha_actualizacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Celulares"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
